@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.8.2">
+  <bpmn:process id="coffeeprocess" name="coffeeprocess" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="coffee request send">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="varietyOfCoffee" label="variety of coffee" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:outgoing>SequenceFlow_0bqbd2u</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0bqbd2u" sourceRef="StartEvent_1" targetRef="Task_1wdx6zf" />
+    <bpmn:userTask id="Task_1wdx6zf" name="examine variety of coffee&#10;">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="varietyOfCoffeeKnown" label="variety of coffee known?" type="boolean" />
+          <camunda:formField id="varietyOfCoffee" label="chosen variety of coffee" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0bqbd2u</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0aimuzr</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_1gpjko4" name="variety of coffee known?">
+      <bpmn:incoming>SequenceFlow_0aimuzr</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1elbu61</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_0y8ihud</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_0aimuzr" sourceRef="Task_1wdx6zf" targetRef="ExclusiveGateway_1gpjko4" />
+    <bpmn:sequenceFlow id="SequenceFlow_1elbu61" name="known" sourceRef="ExclusiveGateway_1gpjko4" targetRef="Task_0vspnal">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${varietyOfCoffeeKnown}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:endEvent id="EndEvent_0u3ud7a" name="coffee request processed">
+      <bpmn:incoming>SequenceFlow_1qd5skt</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1qd5skt" sourceRef="Task_0vspnal" targetRef="EndEvent_0u3ud7a" />
+    <bpmn:userTask id="Task_0vspnal" name="deliver coffee">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="varietyOfCoffee" label="coffee to deliver" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1elbu61</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0xabczg</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1qd5skt</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0y8ihud" name="unknown" sourceRef="ExclusiveGateway_1gpjko4" targetRef="Task_17txm65">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${varietyOfCoffeeKnown == false}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:userTask id="Task_17txm65" name="make research about coffee variety" camunda:formKey="embedded:app:make-research.html">
+      <bpmn:incoming>SequenceFlow_0y8ihud</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0xabczg</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0xabczg" sourceRef="Task_17txm65" targetRef="Task_0vspnal" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="coffeeprocess">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="237" y="256" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="220" y="295" width="70" height="25" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0bqbd2u_di" bpmnElement="SequenceFlow_0bqbd2u">
+        <di:waypoint xsi:type="dc:Point" x="273" y="274" />
+        <di:waypoint xsi:type="dc:Point" x="373" y="274" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="323" y="252.5" width="0" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_0h5ptwv_di" bpmnElement="Task_1wdx6zf">
+        <dc:Bounds x="373" y="234" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_1gpjko4_di" bpmnElement="ExclusiveGateway_1gpjko4" isMarkerVisible="true">
+        <dc:Bounds x="582" y="249" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="567" y="212" width="78" height="25" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0aimuzr_di" bpmnElement="SequenceFlow_0aimuzr">
+        <di:waypoint xsi:type="dc:Point" x="473" y="274" />
+        <di:waypoint xsi:type="dc:Point" x="582" y="274" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="527.5" y="252.5" width="0" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1elbu61_di" bpmnElement="SequenceFlow_1elbu61">
+        <di:waypoint xsi:type="dc:Point" x="632" y="274" />
+        <di:waypoint xsi:type="dc:Point" x="982" y="274" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="769" y="252" width="32" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_0u3ud7a_di" bpmnElement="EndEvent_0u3ud7a">
+        <dc:Bounds x="1142" y="256" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1125" y="295" width="70" height="25" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1qd5skt_di" bpmnElement="SequenceFlow_1qd5skt">
+        <di:waypoint xsi:type="dc:Point" x="1082" y="274" />
+        <di:waypoint xsi:type="dc:Point" x="1142" y="274" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1112" y="252.5" width="0" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_0lscd8f_di" bpmnElement="Task_0vspnal">
+        <dc:Bounds x="982" y="234" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0y8ihud_di" bpmnElement="SequenceFlow_0y8ihud">
+        <di:waypoint xsi:type="dc:Point" x="607" y="299" />
+        <di:waypoint xsi:type="dc:Point" x="607" y="375" />
+        <di:waypoint xsi:type="dc:Point" x="751" y="375" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="668.0620437956204" y="357" width="45" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_1vewucx_di" bpmnElement="Task_17txm65">
+        <dc:Bounds x="751" y="335" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0xabczg_di" bpmnElement="SequenceFlow_0xabczg">
+        <di:waypoint xsi:type="dc:Point" x="851" y="375" />
+        <di:waypoint xsi:type="dc:Point" x="939" y="375" />
+        <di:waypoint xsi:type="dc:Point" x="936" y="297" />
+        <di:waypoint xsi:type="dc:Point" x="982" y="297" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="937.5" y="314.5" width="0" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
