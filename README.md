@@ -13,7 +13,7 @@ Thanks to the Camunda Team.
 ***
 
 ## bpmn model
-![coffee process](http://i.imgur.com/9qWTedU.png)
+![coffee process](http://i.imgur.com/gWOht91.png)
 
 ***
 
