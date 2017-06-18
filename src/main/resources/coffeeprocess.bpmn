@@ -61,7 +61,7 @@
       <bpmn:incoming>SequenceFlow_0y8ihud</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_070w0u2</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:exclusiveGateway id="ExclusiveGateway_0fk6bzo">
+    <bpmn:exclusiveGateway id="ExclusiveGateway_0fk6bzo" default="SequenceFlow_01rgzj3">
       <bpmn:incoming>SequenceFlow_1elbu61</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_070w0u2</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_01rgzj3</bpmn:outgoing>
